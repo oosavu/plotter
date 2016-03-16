@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>PlotCanvas.qml</file>
+        <file>PlotFlickable.qml</file>
+    </qresource>
+</RCC>
