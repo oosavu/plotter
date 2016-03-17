@@ -10,7 +10,7 @@ Canvas{
     property color selectedDotColor: Qt.rgba(0.0,0.0,0.0,1.0)
     property color selectedDotFillColor: Qt.rgba(0.9,0.4,0.9,1.0)
     property int lineWidth: 2
-    property int dotRad: 5
+    property int dotRad: 7
     property int selectedDotRad: dotRad + 2
 
     property int selectedIndex: -1
@@ -36,7 +36,6 @@ Canvas{
     }
 
     function click(x,y){
-        console.log("click",x,y)
         if(selectedIndex != -1) {
             selectedIndex = -1
             return
@@ -54,10 +53,10 @@ Canvas{
 
     Item{
         id: di //data item
-        x: 5
-        y:5
-        width: parent.width - 10
-        height: parent.height - 10
+        x: 30
+        y:30
+        width: parent.width - 60
+        height: parent.height - 40
     }
 
     property var plotData: []
@@ -96,16 +95,16 @@ Canvas{
         ctx.lineJoin = "round"
         ctx.textAlign = "center"
         ctx.font = "bold 12px sans-serif"
-//        ctx.translate(originX, originY)
-//        ctx.rotate(canvas.rotate);
-//        ctx.translate(-originX, -originY)
+
         ctx.beginPath();
-        ctx.moveTo(di.x,di.y+di.height)
+        //ctx.moveTo(di.x,di.y+di.height)
+        ctx.moveTo(di.x,height)
         for(var i = 0; i < pixData.length; i ++){
             ctx.lineTo(pixData[i][0],pixData[i][1])
             //console.log(pixData[i][0],pixData[i][1])
         }
-        ctx.lineTo(di.x+di.width,di.y+di.height)
+        //ctx.lineTo(di.x+di.width,di.y+di.height)
+        ctx.lineTo(di.x+di.width,height)
         ctx.closePath()
         ctx.fill()
 
@@ -140,7 +139,7 @@ Canvas{
         }
         ctx.fillStyle = Qt.rgba(0,0,0,1)
         for(var i = 0; i < pixData.length; i ++){
-            ctx.fillText(plotData[i][1].toFixed(1), pixData[i][0], pixData[i][1] - 10)
+            ctx.fillText(plotData[i][1].toFixed(1), pixData[i][0], pixData[i][1] - 2*dotRad)
         }
     }
 
@@ -152,7 +151,7 @@ Canvas{
 
     Component.onCompleted:{
 //        for (var i = 0; i < 10; i++)
-            pushData()
+        //    pushData()
 //        requestPaint()
     }
 }
