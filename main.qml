@@ -8,20 +8,18 @@ Window {
     color: "gray"
 
     minimumHeight: 400
-    minimumWidth: 600
+    minimumWidth: 800
 
     PlotFlickable{
         id: flick
-//        Rectangle{
-//            anchors.fill: parent
-//            color: "red"
-//        }
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.verticalCenter
         anchors.margins: 5
     }
+
+    //таймер для добавления новых данных.
     Timer{
         id: timer
        // running: true
@@ -33,6 +31,7 @@ Window {
         }
     }
 
+    // столбец кнопок для генерации новых данных для графика
     Item{
         anchors.top: parent.verticalCenter
         anchors.bottom: parent.bottom
@@ -75,6 +74,7 @@ Window {
         }
     }
 
+    // информация о выбранной дате
     Item{
         anchors.top: parent.verticalCenter
         anchors.bottom: parent.bottom
@@ -83,8 +83,6 @@ Window {
         Text{
             visible: flick.canvas.selectedIndex != -1
             anchors.centerIn: parent
-            //verticalAlignment: Text.AlignVCenter
-            //horizontalAlignment: Text.AlignHCenter
             font.pointSize: 12
             text: flick.canvas.selectedIndex == -1? "" :
                 "DATE: " + formateDate(flick.canvas.plotData[flick.canvas.selectedIndex][0]) + "\n" +

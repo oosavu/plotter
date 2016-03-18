@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+
+//элемент позволяет интерактивно работать с графиком (изменять размер, проматывать)
 Flickable {
     id: flick
     contentWidth: width
@@ -8,7 +10,10 @@ Flickable {
     property alias canvas: canvas
     clip: true
 
-    onWidthChanged: canvas.requestPaint()
+    onWidthChanged: {
+        if(contentWidth < width) contentWidth = width
+        canvas.requestPaint()
+    }
     onHeightChanged: canvas.requestPaint()
 
     Rectangle{
@@ -23,6 +28,7 @@ Flickable {
 
     MouseArea{
         anchors.fill: parent
+        // изменение размера графика
         onWheel:{
             var prevPersent = ( wheel.x)/(flick.contentWidth)
             var coef = wheel.angleDelta.y < 0? 0.98 : 1.02
@@ -35,6 +41,7 @@ Flickable {
             flick.returnToBounds()
             canvas.requestPaint()
         }
+        // клик по графику
         onClicked: {
             console.log(flick.contentX, flick.contentWidth, flick.width)
             canvas.click(mouse.x , mouse.y)
