@@ -68,6 +68,7 @@ Canvas{
     }
     function clear(){
         plotData = []
+        selectedIndex = -1
         requestPaint()
     }
 
