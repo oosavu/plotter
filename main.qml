@@ -28,8 +28,8 @@ Window {
         interval: 300
         repeat: true
         onTriggered: {
-            console.log("d push")
-            flick.canvas.pushData()
+            var rand = (Math.random() - 0.5)*2 // [-1,1]
+            flick.canvas.pushData(50 + rand*rand*rand*50)   //[0,100]
         }
     }
 
@@ -37,9 +37,10 @@ Window {
         anchors.top: parent.verticalCenter
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.right: parent.horizontalCenter
         Column{
             anchors.centerIn: parent
+            spacing: 5
             Button{
                 text: timer.running? "STOP" : "START"
                 onClicked:{
@@ -54,6 +55,47 @@ Window {
                             }
                 }
             }
+
+            Button{
+                text: "CLEAR"
+                onClicked:{
+                    flick.canvas.clear()
+                    flick.contentWidth = flick.width
+                    flick.contentX = 0
+                }
+                style: ButtonStyle{
+                    background: Rectangle {
+                                implicitWidth: 100
+                                implicitHeight: 25
+                                color:  "lightgreen"
+                                radius: 4
+                            }
+                }
+            }
         }
+    }
+
+    Item{
+        anchors.top: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.left: parent.horizontalCenter
+        anchors.right: parent.right
+        Text{
+            visible: flick.canvas.selectedIndex != -1
+            anchors.centerIn: parent
+            //verticalAlignment: Text.AlignVCenter
+            //horizontalAlignment: Text.AlignHCenter
+            font.pointSize: 12
+            text: flick.canvas.selectedIndex == -1? "" :
+                "DATE: " + formateDate(flick.canvas.plotData[flick.canvas.selectedIndex][0]) + "\n" +
+                "VALUE: " + flick.canvas.plotData[flick.canvas.selectedIndex][1].toFixed(2)
+
+
+        }
+    }
+
+    function formateDate(date){
+        var m = date.getMonth()+1
+        return date.getDate() + "." + m + "." + date.getFullYear()
     }
 }
